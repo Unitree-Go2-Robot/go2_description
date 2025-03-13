@@ -1214,4 +1214,93 @@ Stephen Brawner (brawner@gmail.com)
     <axis
       xyz="0 0 0" />
   </joint>
+
+  <link name="hesai_lidar">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.09" />
+      </geometry>
+      <material name="lidar_color">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.09" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0" />
+      <inertia
+        ixx="0" ixy="0" ixz="0"
+        iyy="0" iyz="0" izz="0" />
+    </inertial>
+  </link>
+
+  <link name="realsense_support_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.01" length="0.01" />
+      </geometry>
+      <material name="camera_support_color">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.09" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="realsense_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.56 0 1.56" />
+      <geometry>
+        <mesh filename="file://$(find realsense2_description)/meshes/d435.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.09" />
+      </geometry>
+    </collision>
+  </link>
+
+   <joint name="camera_joint" type="fixed">
+    <origin xyz="0.04 0 0.035" rpy="0 0 0" />
+    <parent link="Head_upper" />
+    <child link="camera_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <joint name="hesai_lidar_joint" type="fixed">
+    <origin xyz="0.15 0 0.12" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="hesai_lidar" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <joint name="realsense_support_link_joint" type="fixed">
+    <origin xyz="0.29 0 0.0958" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="realsense_support_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <joint name="realsense_link_joint" type="fixed">
+    <origin xyz="0.04 0.03 0.018" rpy="0 -0.04 0" />
+    <parent link="realsense_support_link" />
+    <child link="realsense_link" />
+    <axis xyz="0 0 0" />
+  </joint>
 </robot>

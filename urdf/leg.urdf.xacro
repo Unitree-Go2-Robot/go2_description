@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="go2_leg" params="name  x_joint y_joint y_thigh_joint" >
-
-    <!-- <xacro:include filename="$(find go2_description)/urdf/transmission.urdf.xacro"/> -->
     
-    <xacro:property name="LF" value="LF" />
-    <xacro:property name="RF" value="RF" />
-    <xacro:property name="LR" value="LR" />
+    <xacro:property name="FL" value="FL" />
+    <xacro:property name="FR" value="FR" />
+    <xacro:property name="RL" value="RL" />
     <xacro:property name="RR" value="RR" />
 
     <link name="${name}_hip">
       <inertial>
-        <xacro:if value="${(name == LF)}">
+        <xacro:if value="${(name == FL)}">
           <origin xyz="-0.0054 0.00194 -0.000105" rpy="0 0 0" />
         </xacro:if>
-        <xacro:if value="${(name == RF)}">
+        <xacro:if value="${(name == FR)}">
           <origin xyz="-0.0054 -0.00194 -0.000105" rpy="0 0 0" />
         </xacro:if>
-        <xacro:if value="${(name == LR)}">
+        <xacro:if value="${(name == RL)}">
           <origin xyz="0.0054 0.00194 -0.000105" rpy="0 0 0" />
         </xacro:if>
         <xacro:if value="${(name == RR)}">
@@ -66,12 +64,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <xacro:if value="${(name == LF) or (name == LR)}">
-            <mesh filename="file://$(find go2_description)/dae/thigh.dae" scale="1 1 1"/>
-          </xacro:if>
-           <xacro:if value="${(name == RF) or (name == RR)}">
-            <mesh filename="file://$(find go2_description)/dae/thigh_mirror.dae" scale="1 1 1"/>
-          </xacro:if>
+            <mesh filename="package://go2_description/dae/thigh.dae" />
         </geometry>
         <material
           name="">
@@ -86,7 +79,7 @@
       </collision>
     </link>
 
-    <joint name="${name}_upper_leg_joint" type="revolute">
+    <joint name="${name}_upper_leg_joint" type="continuous">
       <origin xyz="0 ${y_thigh_joint} 0" rpy="0 0 0" />
       <parent link="${name}_hip" />
       <child link="${name}_thigh" />
@@ -107,10 +100,10 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <xacro:if value="${(name == LF) or (name == LR)}">
+          <xacro:if value="${(name == FL) or (name == RL)}">
             <mesh filename="file://$(find go2_description)/dae/calf.dae" scale="1 1 1"/>
           </xacro:if>
-           <xacro:if value="${(name == RF) or (name == RR)}">
+           <xacro:if value="${(name == FR) or (name == RR)}">
             <mesh filename="file://$(find go2_description)/dae/calf_mirror.dae" scale="1 1 1"/>
           </xacro:if>
         </geometry>
@@ -167,32 +160,6 @@
       <child link="${name}_foot" />
       <axis xyz="0 0 0" />
     </joint>
-
-    <ros2_control name="${name}_control" type="system">
-      <hardware>
-        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-      </hardware>
-
-      <joint name="${name}_hip_joint">
-        <command_interface name="effort"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-          
-      <joint name="${name}_upper_leg_joint">
-        <command_interface name="effort"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-          
-      <joint name="${name}_lower_leg_joint">
-        <command_interface name="effort"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-    </ros2_control> 
-
-    <!-- <xacro:leg_transmission name="${name}"/> -->
 
   </xacro:macro>
 </robot>

@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
@@ -35,7 +36,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'description_file',
-            default_value='go2_description.urdf',
+            default_value='go2_description.urdf.xacro',
             description='URDF/XACRO description file with the robot.',
         )
     )
@@ -46,17 +47,9 @@ def generate_launch_description():
             description='Prefix to be added to the robot description.',
         )
     )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='True',
-            description='Use simulation/Gazebo clock if true',
-        )
-    )
 
     description_file = LaunchConfiguration('description_file')
     prefix = LaunchConfiguration('prefix')
-    use_sim_time = LaunchConfiguration('use_sim_time')
 
     robot_description_content = Command(
         [
@@ -77,7 +70,6 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{
-            'use_sim_time': use_sim_time,
             'robot_description': robot_description_param,
             'publish_frequency': 100.0,
             'frame_prefix': '',

@@ -5,7 +5,7 @@
   <version>1.0.0</version>
   <description>Unitree go2 robot description</description>
   <maintainer email="juancarlos.serrano@urjc.es">Juan Carlos Manzanares Serrano</maintainer>
-  <license>Apache License, Version 2.0</license>
+  <license>BSD 3-Clause License</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
