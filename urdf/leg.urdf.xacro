@@ -64,7 +64,12 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-            <mesh filename="package://go2_description/dae/thigh.dae" />
+          <xacro:if value="${(name == FL) or (name == RL)}">
+            <mesh filename="file://$(find go2_description)/dae/thigh.dae" scale="1 1 1"/>
+          </xacro:if>
+           <xacro:if value="${(name == FR) or (name == RR)}">
+            <mesh filename="file://$(find go2_description)/dae/thigh_mirror.dae" scale="1 1 1"/>
+          </xacro:if>
         </geometry>
         <material
           name="">
@@ -79,7 +84,7 @@
       </collision>
     </link>
 
-    <joint name="${name}_upper_leg_joint" type="continuous">
+    <joint name="${name}_upper_leg_joint" type="revolute">
       <origin xyz="0 ${y_thigh_joint} 0" rpy="0 0 0" />
       <parent link="${name}_hip" />
       <child link="${name}_thigh" />
