@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="hip" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find go2_description)/urdf/leg/thigh.urdf.xacro"/>
+
+    <!-- Define a macro for base_link -->
+    <xacro:macro name="go2_hip" params="prefix parent *origin reflect">
+        <xacro:property name="thigh_offset_x" value="0.0"/>
+        <xacro:property name="thigh_offset_y" value="0.09"/>
+        <xacro:property name="thigh_offset_z" value="0.0"/>
+        <xacro:if value="${(prefix == RL_) or (prefix == RR_)}">
+            <xacro:property name="hip_angle" value="${PI}"/>
+        </xacro:if>
+        <xacro:unless value="${(prefix == RL_) or (prefix == RR_)}">
+            <xacro:property name="hip_angle" value="0"/>
+        </xacro:unless>
+
+        <joint name="${prefix}hip_joint" type="continuous">
+            <parent link="${parent}"/>
+            <child link="${prefix}hip_link"/>
+            <xacro:insert_block name="origin" />
+            <axis xyz="1 0 0" />
+            <limit lower="-1.0472" upper="1.0472" effort="23.7" velocity="30.1" />
+        </joint>
+
+        <link name="${prefix}hip_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="6.921" />
+                <inertia
+                    ixx="0.02448" ixy="0.00012166" ixz="0.0014849"
+                    iyy="0.098077" iyz="-3.12E-05" izz="0.107" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/leg/hip.dae" scale="1 1 1"/>
+                </geometry>
+                <material
+                    name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/leg/hip.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <xacro:go2_thigh prefix="${prefix}" parent="${prefix}hip_link" reflect="${reflect}">
+            <xacro:if value="${reflect}">
+                <origin xyz="${thigh_offset_x} ${thigh_offset_y} ${thigh_offset_z}" rpy="${PI} ${hip_angle} 0"/>
+            </xacro:if>
+            <xacro:unless value="${reflect}">
+                <origin xyz="${thigh_offset_x} ${thigh_offset_y} ${thigh_offset_z}" rpy="0 ${hip_angle} 0"/>
+            </xacro:unless>
+        </xacro:go2_thigh>
+
+    </xacro:macro>
+</robot>

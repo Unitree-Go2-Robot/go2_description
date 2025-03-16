@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:include filename="$(find go2_description)/urdf/leg/hip.urdf.xacro"/>
+
+<xacro:property name="FL_" value="FL_" />
+<xacro:property name="FR_" value="FR_" />
+<xacro:property name="RL_" value="RL_" />
+<xacro:property name="RR_" value="RR_" />
+
+  <xacro:macro name="go2_leg" params="prefix parent reflect x y z roll pitch yaw">
+
+    <xacro:go2_hip prefix="${prefix}" parent="${parent}" reflect="${reflect}">
+      <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}"/>
+    </xacro:go2_hip>
+
+  </xacro:macro>
+</robot>

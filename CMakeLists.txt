@@ -7,7 +7,7 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY launch urdf dae
+install(DIRECTORY launch urdf meshes robots
   DESTINATION share/${PROJECT_NAME}
 )
 

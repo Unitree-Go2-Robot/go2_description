@@ -1,0 +1,5 @@
+-------MEASUREMENT DATA---------
+
+base.dae
+
+ID : Dist [pointA][pointB]

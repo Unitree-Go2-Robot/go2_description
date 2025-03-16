@@ -77,4 +77,10 @@ def generate_launch_description():
         )
     )
 
+    nodes.append(Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui'
+        )
+    )
+
     return LaunchDescription(declared_arguments + nodes)

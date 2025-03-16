@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hesai_sensor">
+
+    <!-- Hesai Sensor Macro -->
+    <xacro:macro name="hesai_sensor" params="prefix parent *origin">
+
+        <joint name="${prefix}lidar_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${prefix}lidar_link"/>
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${prefix}lidar_link">
+            <visual>
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/sensors/hesai_XT16.dae" scale="1 1 1"/>
+                </geometry>
+                <material name="">
+                    <color rgba="1 1 1 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/sensors/hesai_XT16.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.9"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="0.00093" ixy="0.0" ixz="0.0" iyy="0.00093" iyz="0.0" izz="0.001"/>
+            </inertial>
+        </link>
+
+
+    </xacro:macro>
+</robot>

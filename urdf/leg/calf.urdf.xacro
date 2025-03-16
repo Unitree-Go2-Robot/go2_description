@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="calf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Define a macro for base_link -->
+    <xacro:macro name="go2_calf" params="prefix parent *origin reflect">
+
+        <joint name="${prefix}calf_joint" type="continuous">
+            <parent link="${parent}"/>
+            <child link="${prefix}calf_link"/>
+            <xacro:insert_block name="origin" />
+            <axis xyz="0 1 0" />
+            <limit lower="-2.7227" upper="-0.83776" effort="45.43" velocity="15.70" />
+        </joint>
+
+        <link name="${prefix}calf_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.154" />
+                <inertia
+                    ixx="0.00108"   ixy="3.4E-07"   ixz="1.72E-05"
+                    iyy="0.0011"    iyz="8.28E-06"  izz="3.29E-05" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <xacro:unless value="${reflect}">
+                        <mesh filename="file://$(find go2_description)/meshes/leg/calf.dae" scale="1 1 1"/>
+                    </xacro:unless>
+                    <xacro:if value="${reflect}">
+                        <mesh filename="file://$(find go2_description)/meshes/leg/calf_mirror.dae" scale="1 1 1"/>
+                    </xacro:if>
+                </geometry>
+                <material
+                    name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <xacro:unless value="${reflect}">
+                        <mesh filename="file://$(find go2_description)/meshes/leg/calf.dae" scale="1 1 1"/>
+                    </xacro:unless>
+                    <xacro:if value="${reflect}">
+                        <mesh filename="file://$(find go2_description)/meshes/leg/calf_mirror.dae" scale="1 1 1"/>
+                    </xacro:if>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot name="base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Define a macro for base_link -->
+    <xacro:macro name="go2_base" params="prefix">
+        <link name="${prefix}base_footprint">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+        </link>
+
+		<joint name="${prefix}base_footprint_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0" /> <!-- A Z level is required -->
+            <parent link="${prefix}base_footprint"/>
+            <child link="${prefix}base_link" />
+		</joint>
+        
+        <link name="${prefix}base_link">
+            <inertial>
+                <origin xyz="0.021112 0 -0.005366" rpy="0 0 0" />
+                <mass value="6.921" />
+                <inertia
+                    ixx="0.02448" ixy="0.00012166" ixz="0.0014849"
+                    iyy="0.098077" iyz="-3.12E-05" izz="0.107" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/base/base.dae" scale="1 1 1"/>
+                </geometry>
+                <material
+                    name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/base/base.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+</robot>
