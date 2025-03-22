@@ -2,12 +2,11 @@
 <robot name="thigh" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:include filename="$(find go2_description)/urdf/leg/calf.urdf.xacro"/>
-
-    <!-- Define a macro for base_link -->
+    <!-- Define a macro for thigh -->
     <xacro:macro name="go2_thigh" params="prefix parent *origin reflect">
         <xacro:property name="calf_offset_x" value="0.0"/>
         <xacro:property name="calf_offset_y" value="0.0"/>
-        <xacro:property name="calf_offset_z" value="-0.194"/>
+        <xacro:property name="calf_offset_z" value="-0.213"/>
 
         <joint name="${prefix}thigh_joint" type="continuous">
             <parent link="${parent}"/>

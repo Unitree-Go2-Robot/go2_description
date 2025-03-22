@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera_sensor">
+
+    <!-- camera Sensor Macro -->
+    <xacro:macro name="camera_sensor" params="prefix parent *origin 
+                        horizontal_fov:=80
+                        video_width:=640
+                        video_height:=480">
+
+        <joint name="${prefix}camera_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${prefix}camera_link"/>
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${prefix}camera_link">
+            <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
+            </inertial>
+        </link>
+
+        <joint name="${prefix}camera_optical_joint" type="fixed">
+            <parent link="${prefix}camera_link"/>
+            <child link="${prefix}camera_optical_frame"/>
+            <origin xyz="0 0 0" rpy="-${PI/2} 0 -${PI/2}" />
+        </joint>
+
+        <link name="${prefix}camera_optical_frame">
+            <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia
+                ixx="0"
+                ixy="0"
+                ixz="0"
+                iyy="0"
+                iyz="0"
+                izz="0" />
+            </inertial>
+        </link>
+
+        <gazebo reference="${prefix}camera_optical_frame">
+            <sensor name="${prefix}camera_sensor" type="camera">
+                <visualize>true</visualize>
+                <update_rate>30</update_rate>
+                <topic>/${prefix}camera_sensor/image</topic>
+                <camera>
+                <horizontal_fov>${radians(float(horizontal_fov))}</horizontal_fov>
+                <image>
+                    <width>${video_width}</width>
+                    <height>${video_height}</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.10</near>
+                    <far>15.0</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+                <optical_frame_id>${prefix}camera_optical_frame</optical_frame_id>
+                </camera>
+            </sensor>
+        </gazebo>
+
+    </xacro:macro>
+</robot>

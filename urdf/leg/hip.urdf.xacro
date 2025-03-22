@@ -2,11 +2,10 @@
 <robot name="hip" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:include filename="$(find go2_description)/urdf/leg/thigh.urdf.xacro"/>
-
-    <!-- Define a macro for base_link -->
+    <!-- Define a macro for hip -->
     <xacro:macro name="go2_hip" params="prefix parent *origin reflect">
         <xacro:property name="thigh_offset_x" value="0.0"/>
-        <xacro:property name="thigh_offset_y" value="0.09"/>
+        <xacro:property name="thigh_offset_y" value="0.0955"/>
         <xacro:property name="thigh_offset_z" value="0.0"/>
         <xacro:if value="${(prefix == RL_) or (prefix == RR_)}">
             <xacro:property name="hip_angle" value="${PI}"/>

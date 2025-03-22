@@ -10,7 +10,7 @@
 
 <!-- Leg Allocations -->
 <xacro:property name="leg_offset_x" value="0.194"/>
-<xacro:property name="leg_offset_y" value="0.0685"/>
+<xacro:property name="leg_offset_y" value="0.0465"/>
 <xacro:property name="leg_offset_z" value="0.0"/>
 
 <!-- Arguments -->
@@ -20,9 +20,30 @@
 <xacro:arg name="realsense" default="false"/>
 <xacro:arg name="name" default="go2"/>
 
-<!-- Robot elements -->
-<!-- Import sensors -->
+<!-- Sensors -->
+<!-- IMU -->
+<xacro:include filename="$(find go2_description)/urdf/sensors/imu.urdf.xacro"/>
+<xacro:imu_sensor prefix="$(arg prefix)" parent="$(arg prefix)base_link">
+  <origin xyz="-0.02557 0 0.04232" rpy="0 0 0"/>
+</xacro:imu_sensor>
+
+<!-- camera -->
+<xacro:include filename="$(find go2_description)/urdf/sensors/camera.urdf.xacro"/>
+<xacro:camera_sensor prefix="$(arg prefix)" parent="$(arg prefix)base_link">
+  <origin xyz="0.325 0 0.045" rpy="0 0 0"/>
+</xacro:camera_sensor>
+
+<!-- radar -->
+<xacro:include filename="$(find go2_description)/urdf/sensors/radar.urdf.xacro"/>
+<xacro:radar_sensor prefix="$(arg prefix)" parent="$(arg prefix)base_link">
+  <origin xyz="0.28945 0 -0.046825" rpy="0 2.8782 0"/>
+</xacro:radar_sensor>
+
+<!-- hesai lidar -->
 <xacro:include filename="$(find go2_description)/urdf/sensors/hesai.urdf.xacro"/>
+<xacro:hesai_sensor prefix="$(arg prefix)" parent="$(arg prefix)base_link">
+  <origin xyz="0.15 0 0.12" rpy="0 0 ${PI/2}"/>
+</xacro:hesai_sensor>
 
 <!-- Robot base -->
 <xacro:go2_base prefix="$(arg prefix)"/>
@@ -40,196 +61,5 @@
 <xacro:go2_leg prefix="RR_" parent="$(arg prefix)base_link" reflect="true" 
         x="-${leg_offset_x}"  y="-${leg_offset_y}"  z="${leg_offset_z}" 
         roll="0"      pitch="0"   yaw="${PI}"/>
-
-<!-- Sensors -->
-<xacro:hesai_sensor prefix="$(arg prefix)" parent="$(arg prefix)base_link">
-  <origin xyz="0.15 0 0.12" rpy="0 0 ${PI/2}"/>
-</xacro:hesai_sensor>
-
-
-
-  <!-- <link
-    name="odom">
-  </link> -->
-
-  <!-- <link name="Head_upper">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0.001" />
-      <inertia
-        ixx="9.6e-06" ixy="0" ixz="0"
-        iyy="9.6e-06" iyz="0" izz="9.6e-06" />
-    </inertial>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.09" />
-      </geometry>
-    </collision>
-  </link> -->
-
-  <!-- <link name="Head_lower">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0.001" />
-      <inertia
-        ixx="9.6e-06" ixy="0" ixz="0"
-        iyy="9.6e-06" iyz="0" izz="9.6e-06" />
-    </inertial>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.047" />
-      </geometry>
-    </collision>
-  </link> -->
-
-  <!-- <link name="imu">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0" />
-      <inertia
-        ixx="0" ixy="0" ixz="0"
-        iyy="0" iyz="0" izz="0" />
-    </inertial>
-  </link> -->
-
-  <!-- <link name="radar">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0" />
-      <inertia
-        ixx="0" ixy="0" ixz="0"
-        iyy="0" iyz="0" izz="0" />
-    </inertial>
-  </link> -->
-
-  <!-- <link name="camera_link">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0" />
-      <inertia
-        ixx="0" ixy="0" ixz="0"
-        iyy="0" iyz="0" izz="0" />
-    </inertial>
-  </link> -->
-
-  <!-- <link name="hesai_lidar">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.09" />
-      </geometry>
-      <material name="lidar_color">
-        <color rgba="0.1 0.1 0.1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.09" />
-      </geometry>
-    </collision>
-  </link> -->
-
-  <!-- <link name="realsense_support_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.01" length="0.01" />
-      </geometry>
-      <material name="camera_support_color">
-        <color rgba="0.1 0.1 0.1 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.09" />
-      </geometry>
-    </collision>
-  </link> -->
-
-  <!-- <link name="realsense_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="1.56 0 1.56" />
-      <geometry>
-        <mesh filename="file://$(find realsense2_description)/meshes/d435.dae" />
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.09" />
-      </geometry>
-    </collision>
-  </link> -->
-
-  <!-- <joint name="odom_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="odom" />
-    <child link="base_link" />
-  </joint> -->
-
-  <!-- <joint name="Head_upper_joint" type="fixed" dont_collapse="true">
-    <origin xyz="0.285 0 0.01" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="Head_upper" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
- <!-- <joint name="Head_lower_joint" type="fixed" dont_collapse="true">
-    <origin xyz="0.008 0 -0.07" rpy="0 0 0" />
-    <parent link="Head_upper" />
-    <child link="Head_lower" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="imu_joint" type="fixed">
-    <origin xyz="-0.02557 0 0.04232" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="imu" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="radar_joint" type="fixed">
-    <origin xyz="0.28945 0 -0.046825" rpy="0 2.8782 0" />
-    <parent link="base_link" />
-    <child link="radar" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="camera_joint" type="fixed">
-    <origin xyz="0.04 0 0.035" rpy="0 0 0" />
-    <parent link="Head_upper" />
-    <child link="camera_link" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="hesai_lidar_joint" type="fixed">
-    <origin xyz="0.15 0 0.12" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="hesai_lidar" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="realsense_support_link_joint" type="fixed">
-    <origin xyz="0.29 0 0.0958" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="realsense_support_link" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <joint name="realsense_link_joint" type="fixed">
-    <origin xyz="0.04 0.03 0.018" rpy="0 -0.04 0" />
-    <parent link="realsense_support_link" />
-    <child link="realsense_link" />
-    <axis xyz="0 0 0" />
-  </joint> -->
-
-  <!-- <xacro:go2_leg name="FL" x_joint="0.1934" y_joint="0.0465" y_thigh_joint="0.0955"/> 
-  <xacro:go2_leg name="FR" x_joint="0.1934" y_joint="-0.0465" y_thigh_joint="-0.0955"/>
-  <xacro:go2_leg name="RL" x_joint="-0.1934" y_joint="0.0465" y_thigh_joint="0.0955"/>
-  <xacro:go2_leg name="RR" x_joint="-0.1934" y_joint="-0.0465" y_thigh_joint="-0.0955"/> -->
 
 </robot>

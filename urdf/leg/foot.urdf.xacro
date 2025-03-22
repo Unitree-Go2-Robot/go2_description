@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot name="foot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Define a macro for foot -->
+    <xacro:macro name="go2_foot" params="prefix parent *origin reflect">
+
+        <joint name="${prefix}foot_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${prefix}foot_link"/>
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${prefix}foot_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.04" />
+                <inertia
+                    ixx="9.6e-06"   ixy="0.0"      ixz="0.0"
+                    iyy="9.6e-06"   iyz="0.0"      izz="9.6e-06"  />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/leg/foot.dae" scale="1 1 1"/>
+                </geometry>
+                <material
+                    name="">
+                    <color rgba="1 1 1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find go2_description)/meshes/leg/foot.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+        </link>
+
+    </xacro:macro>
+</robot>
